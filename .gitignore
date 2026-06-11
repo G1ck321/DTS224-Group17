@@ -1,0 +1,8 @@
+**venv**
+*.pyc
+**/node_modules/
+**/.vite/
+**/dist/
+sharp/
+*.key
+*.env
