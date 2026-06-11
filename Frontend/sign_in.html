@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in — VIRS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="signin.css" />
+</head>
+<body class="signin-page">
+
+  <!-- ── SHARED NAV (same as homepage, scrolled = dark) ─── -->
+  <nav class="nav scrolled" id="navbar">
+    <a href="index.html" class="nav-logo">VIRS</a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#roles">Roles</a>
+    </div>
+    <!-- Active state: "Sign in" becomes current page indicator -->
+  </nav>
+
+  <!-- ── SIGN IN LAYOUT ──────────────────────────────────── -->
+  <main class="signin-main">
+
+    <!-- Left panel: branding / info -->
+    <div class="signin-left">
+      <div class="signin-brand">
+        <span class="signin-logo">VIRS</span>
+        <p class="signin-tagline">Vendor Installment &amp;<br/>Restock Tracking System</p>
+      </div>
+      <div class="signin-info">
+        <div class="sinfo-item">
+          <i class="ti ti-shield-check" aria-hidden="true"></i>
+          <div>
+            <p class="sinfo-title">Role-based access</p>
+            <p class="sinfo-sub">Student, Seller, and Admin each see only what they need.</p>
+          </div>
+        </div>
+        <div class="sinfo-item">
+          <i class="ti ti-lock" aria-hidden="true"></i>
+          <div>
+            <p class="sinfo-title">Secure &amp; immutable</p>
+            <p class="sinfo-sub">Passwords hashed. Every Moniepoint reference is permanent.</p>
+          </div>
+        </div>
+        <div class="sinfo-item">
+          <i class="ti ti-bell" aria-hidden="true"></i>
+          <div>
+            <p class="sinfo-title">Live balance tracking</p>
+            <p class="sinfo-sub">See your real-time installment progress from any device.</p>
+          </div>
+        </div>
+      </div>
+      <p class="signin-footer-note">God's Wish Boutique · Covenant University SBU · DTS224 Group 17</p>
+    </div>
+
+    <!-- Right panel: the form card -->
+    <div class="signin-right">
+      <div class="signin-card">
+
+        <div class="signin-card-header">
+          <h1 class="signin-title">Welcome back</h1>
+          <p class="signin-sub">Sign in to your VIRS account</p>
+        </div>
+
+        <!-- Role tabs -->
+        <div class="role-tabs" role="tablist">
+          <button class="rtab active" id="tab-student" role="tab" aria-selected="true" onclick="setTab('student')">
+            <i class="ti ti-user" aria-hidden="true"></i> STUDENT
+          </button>
+          <button class="rtab" id="tab-seller" role="tab" aria-selected="false" onclick="setTab('seller')">
+            <i class="ti ti-tag" aria-hidden="true"></i> SELLER
+          </button>
+          <button class="rtab" id="tab-boss" role="tab" aria-selected="false" onclick="setTab('boss')">
+            <i class="ti ti-crown" aria-hidden="true"></i> ADMIN
+          </button>
+        </div>
+
+        <!-- Form -->
+        <form class="signin-form" onsubmit="handleSignIn(event)">
+
+          <div class="form-group">
+            <label for="login-id" id="id-label">Student ID / Matric number</label>
+            <div class="input-wrap">
+              <i class="ti ti-id-badge input-icon" aria-hidden="true"></i>
+              <input
+                type="text"
+                id="login-id"
+                placeholder="e.g. 24CG000001"
+                autocomplete="username"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="login-pw">Password</label>
+            <div class="input-wrap">
+              <i class="ti ti-lock input-icon" aria-hidden="true"></i>
+              <input
+                type="password"
+                id="login-pw"
+                placeholder="••••••••"
+                autocomplete="current-password"
+                required
+              />
+              <button type="button" class="pw-toggle" onclick="togglePw()" aria-label="Toggle password visibility">
+                <i class="ti ti-eye" id="pw-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Error message (hidden by default) -->
+          <p class="form-error" id="form-error" aria-live="polite"></p>
+
+          <button type="submit" class="btn-signin" id="signin-btn">
+            <span id="btn-text">Sign in</span>
+            <i class="ti ti-arrow-right" id="btn-icon" aria-hidden="true"></i>
+          </button>
+
+        </form>
+
+        <!-- Demo shortcuts -->
+        <div class="demo-row">
+          <span class="demo-label">Demo shortcuts:</span>
+          <button class="demo-chip" onclick="quickLogin('student')">
+            <i class="ti ti-user" aria-hidden="true"></i> STUDENT
+          </button>
+          <button class="demo-chip" onclick="quickLogin('seller')">
+            <i class="ti ti-tag" aria-hidden="true"></i> SELLER
+          </button>
+          <button class="demo-chip" onclick="quickLogin('boss')">
+            <i class="ti ti-crown" aria-hidden="true"></i> ADMIN
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="signin.js"></script>
+</body>
+</html>

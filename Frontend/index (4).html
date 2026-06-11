@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIRS — God's Wish Boutique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+
+  <!-- ── SHARED NAV ──────────────────────────────────────── -->
+  <nav class="nav" id="navbar">
+    <a href="index.html" class="nav-logo">VIRS</a>
+    <div class="nav-links" >
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#roles">Roles</a>
+    </div>
+    <a href="sign_in.html" class="nav-cta">Sign in <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+  </nav>
+
+  <!-- ── HERO ────────────────────────────────────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="accent-line l1" aria-hidden="true"></div>
+    <div class="accent-line l2" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <div class="hero-tag reveal">
+        <span class="dot"></span>
+        Covenant University · SBU · DTS224 Group 17
+      </div>
+
+      <h1 class="hero-title">
+        <span class="line reveal delay-1">STOP LOSING</span>
+        <span class="line line-outline reveal delay-2">MONEY</span>
+        <span class="line reveal delay-3">TO PAPER.</span>
+      </h1>
+
+      <p class="hero-sub reveal delay-4">
+        God's Wish Boutique now tracks every installment, every naira, every student — digitally. No more paper ledgers. No more double-selling. No more guessing.
+      </p>
+
+      <div class="hero-actions reveal delay-5">
+        <!-- "Get started" goes straight to the sign-in page -->
+        <a href="sign_in.html" class="btn-hero-primary">
+          Get started <i class="ti ti-arrow-right" aria-hidden="true"></i>
+        </a>
+        <a href="#how" class="btn-hero-ghost">
+          See how it works
+        </a>
+      </div>
+
+      <div class="hero-stats reveal delay-5">
+        <div class="hstat">
+          <span class="hstat-num">₦0</span>
+          <span class="hstat-label">Lost to misplaced ledgers</span>
+        </div>
+        <div class="hstat-divider" aria-hidden="true"></div>
+        <div class="hstat">
+          <span class="hstat-num">3</span>
+          <span class="hstat-label">Stock states tracked</span>
+        </div>
+        <div class="hstat-divider" aria-hidden="true"></div>
+        <div class="hstat">
+          <span class="hstat-num">100%</span>
+          <span class="hstat-label">Before item leaves store</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint reveal delay-5" aria-label="Scroll down">
+      <span>Scroll</span>
+      <i class="ti ti-arrow-down" aria-hidden="true"></i>
+    </div>
+  </section>
+
+  <!-- ── PROBLEM STRIP ───────────────────────────────────── -->
+  <section class="problem-strip">
+    <div class="problem-inner">
+      <p class="problem-label scroll-reveal">The old way</p>
+      <div class="problems">
+        <div class="problem-item scroll-reveal">
+          <i class="ti ti-notebook" aria-hidden="true"></i>
+          <p>Paper ledgers get torn, wet, lost</p>
+        </div>
+        <div class="problem-item scroll-reveal">
+          <i class="ti ti-user-question" aria-hidden="true"></i>
+          <p>Identity verified by memory alone</p>
+        </div>
+        <div class="problem-item scroll-reveal">
+          <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+          <p>Items double-sold to new customers</p>
+        </div>
+        <div class="problem-item scroll-reveal">
+          <i class="ti ti-message-off" aria-hidden="true"></i>
+          <p>Admin hears about issues too late</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ────────────────────────────────────────── -->
+  <section class="features section" id="features">
+    <div class="container">
+      <div class="section-header scroll-reveal">
+        <p class="eyebrow">What VIRS does</p>
+        <h2 class="section-title">Built for the<br/><em>actual problems</em></h2>
+      </div>
+      <div class="features-grid">
+        <div class="feat-card large scroll-reveal">
+          <div class="feat-icon"><i class="ti ti-lock" aria-hidden="true"></i></div>
+          <h3>Installment lifecycle</h3>
+          <p>Every payment plan has a full audit trail — from first deposit to 100% settlement. Items are physically locked in an allocated hold until the balance hits zero.</p>
+          <div class="feat-tag">₦-level accuracy</div>
+        </div>
+        <div class="feat-card scroll-reveal">
+          <div class="feat-icon"><i class="ti ti-package" aria-hidden="true"></i></div>
+          <h3>3-state inventory</h3>
+          <p>Stock splits into <strong>available</strong>, <strong>allocated</strong>, and <strong>physical</strong>. No item slips through the cracks.</p>
+        </div>
+        <div class="feat-card scroll-reveal">
+          <div class="feat-icon"><i class="ti ti-bell" aria-hidden="true"></i></div>
+          <h3>Auto Telegram alerts</h3>
+          <p>Students get notified at 80% payment and near semester close — no manual chasing.</p>
+        </div>
+        <div class="feat-card scroll-reveal">
+          <div class="feat-icon"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+          <h3>Role-based access</h3>
+          <p>Sellers can only insert payments. Only the Admin can edit, delete, or issue refunds.</p>
+        </div>
+        <div class="feat-card scroll-reveal">
+          <div class="feat-icon"><i class="ti ti-credit-card" aria-hidden="true"></i></div>
+          <h3>Moniepoint integration</h3>
+          <p>POS transactions write immutable reference tokens. Zero manual tampering possible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ────────────────────────────────────── -->
+  <section class="how section" id="how">
+    <div class="container">
+      <div class="section-header scroll-reveal">
+        <p class="eyebrow">How it works</p>
+        <h2 class="section-title">From walk-in to<br/><em>full payment</em></h2>
+      </div>
+      <div class="steps">
+        <div class="step scroll-reveal">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h3>Student places an order</h3>
+            <p>The seller logs the order and the item is immediately pulled from the sales floor into an allocated hold. The student's available balance updates in real time.</p>
+          </div>
+        </div>
+        <div class="step-connector" aria-hidden="true"></div>
+        <div class="step scroll-reveal">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h3>Payments come in over time</h3>
+            <p>Each payment — cash, card, or Moniepoint transfer — is logged with an immutable reference string. The student can see their live balance on the web panel at any time.</p>
+          </div>
+        </div>
+        <div class="step-connector" aria-hidden="true"></div>
+        <div class="step scroll-reveal">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h3>Automated alerts fire</h3>
+            <p>At 80% completion or near the semester deadline, the system queues a Telegram message to the student. No one has to remember to chase anyone.</p>
+          </div>
+        </div>
+        <div class="step-connector" aria-hidden="true"></div>
+        <div class="step scroll-reveal">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <h3>100% reached — item released</h3>
+            <p>Once fully settled, the system logs the event, releases the item from hold, and the student collects with their student ID. Not a naira before that point.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ROLES ───────────────────────────────────────────── -->
+  <section class="roles section" id="roles">
+    <div class="container">
+      <div class="section-header scroll-reveal">
+        <p class="eyebrow">Who uses VIRS?</p>
+        <h2 class="section-title">Three roles.<br/><em>One system.</em></h2>
+      </div>
+      <div class="roles-grid">
+
+        <!-- Student -->
+        <div class="role-card scroll-reveal">
+          <div class="role-header">
+            <div class="role-avatar student">S</div>
+            <div>
+              <h3>Student</h3>
+              <p class="role-sub">Customer portal</p>
+            </div>
+          </div>
+          <ul class="role-perms">
+            <li><i class="ti ti-check" aria-hidden="true"></i> View installment balance</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> See payment history</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Track semester deadline</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Receive Telegram alerts</li>
+            <li class="no"><i class="ti ti-x" aria-hidden="true"></i> Cannot modify records</li>
+          </ul>
+          <!-- Links directly to sign-in page -->
+          <a href="sign_in.html" class="role-btn">Student login <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+        </div>
+
+        <!-- Seller -->
+        <div class="role-card scroll-reveal">
+          <div class="role-header">
+            <div class="role-avatar seller">S</div>
+            <div>
+              <h3>Seller</h3>
+              <p class="role-sub">Staff portal</p>
+            </div>
+          </div>
+          <ul class="role-perms">
+            <li><i class="ti ti-check" aria-hidden="true"></i> Log new payments</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Register new orders</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> Update item prices</li>
+            <li><i class="ti ti-check" aria-hidden="true"></i> View debtor list</li>
+            <li class="no"><i class="ti ti-x" aria-hidden="true"></i> Cannot edit past records</li>
+          </ul>
+          <a href="sign_in.html" class="role-btn">Staff login <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+        </div>
+
+        <!-- Boss -->
+        <!-- Admin -->
+<div class="role-card boss-card scroll-reveal">
+  <div class="role-header">
+    <div class="role-avatar boss">B</div>
+    <div>
+      <h3>The Admin</h3>
+      <p class="role-sub">Admin dashboard</p>
+    </div>
+  </div>
+  <ul class="role-perms">
+    <li><i class="ti ti-check" aria-hidden="true"></i> Full financial overview</li>
+    <li><i class="ti ti-check" aria-hidden="true"></i> Edit &amp; delete any record</li>
+    <li><i class="ti ti-check" aria-hidden="true"></i> Issue refunds</li>
+    <li><i class="ti ti-check" aria-hidden="true"></i> View system alert log</li>
+    <li><i class="ti ti-check" aria-hidden="true"></i> Manage inventory stock</li>
+  </ul>
+  <a href="sign_in.html" class="role-btn boss-btn">Admin login <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ──────────────────────────────────────── -->
+  <section class="cta-banner">
+    <div class="cta-inner scroll-reveal">
+      <h2 class="cta-title">READY TO<br/>TRACK EVERY NAIRA?</h2>
+      <!-- Fixed: proper button styling, links to sign_in -->
+      <a href="sign_in.html" class="btn-hero-primary inverted">
+        Open the dashboard <i class="ti ti-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ──────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="nav-logo">VIRS</span>
+      <span class="footer-sub">Vendor Installment &amp; Restock Tracking System · God's Wish Boutique · Covenant University SBU</span>
+      <span class="footer-sub">DTS224 · Group 17</span>
+    </div>
+  </footer>
+
+  <script src="home.js"></script>
+</body>
+</html>

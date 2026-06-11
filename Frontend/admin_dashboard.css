@@ -1,0 +1,315 @@
+/* ---- Boss role badge ---------------------------------- */
+.boss-badge {
+  background: #fff3e0 !important;
+  color: var(--warn) !important;
+}
+
+/* ---- Admin section header ----------------------------- */
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 10px;
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  background: #0c0c0c;
+  color: #dfdfdf;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* ---- Overdue row highlight in table ------------------- */
+.overdue-row td {
+  background: #fff8f8 !important;
+}
+
+.overdue-row:hover td {
+  background: #ffefef !important;
+}
+
+/* ---- Action buttons (edit / refund / delete) ---------- */
+.action-btns {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 0.5px solid var(--border);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--mid);
+  transition: background 0.15s, color 0.15s, transform 0.12s, border-color 0.15s;
+}
+
+.action-btn:hover  { transform: scale(1.12); }
+.action-btn:active { transform: scale(0.95); }
+
+.edit-btn:hover {
+  background: #e8f5e9;
+  color: var(--ok);
+  border-color: rgba(42,122,59,0.3);
+}
+
+.refund-btn:hover {
+  background: #fff3e0;
+  color: var(--warn);
+  border-color: rgba(184,92,0,0.3);
+}
+
+.delete-btn:hover {
+  background: #ffebee;
+  color: var(--bad);
+  border-color: rgba(163,45,45,0.3);
+}
+
+.admin-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 13px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  z-index: 999;
+  max-width: 320px;
+}
+
+.admin-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Inventory for Admin --------------------- */
+.debtor-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.debtor-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mini-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mini-progress-track {
+  width: 60px;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 99px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mini-progress-bar {
+  height: 100%;
+  border-radius: 99px;
+  width: 0;
+  animation: fillBar 1s ease 0.3s both;
+}
+
+.mini-pct {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink);
+  min-width: 28px;
+}
+
+.mini-pct.bad { color: var(--bad); }
+
+/* Inventory grid */
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.inv-card {
+  background: var(--card);
+  border: 0.5px solid rgba(12,12,12,0.12);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.inv-card:hover { border-color: rgba(12,12,12,0.3); transform: translateY(-2px); }
+.inv-card.zero-card { border-color: rgba(163,45,45,0.3); background: #fff8f8; }
+
+.inv-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+.inv-meta { font-size: 11px; color: var(--mid); margin-top: 2px; }
+
+.inv-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.inv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.avail-chip { background: #e8f5e9; color: var(--ok);   }
+.alloc-chip { background: #fff3e0; color: var(--warn); }
+.total-chip { background: #f0f0f0; color: var(--mid);  }
+.zero-chip  { background: #ffebee; color: var(--bad);  }
+
+/* Inventory action buttons (boss only) */
+.inv-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  border-top: 0.5px solid rgba(12,12,12,0.07);
+}
+
+.inv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.12s;
+}
+
+.inv-btn:hover  { background: #2a2a2a; transform: translateY(-1px); }
+.inv-btn:active { transform: scale(0.96); }
+
+.inv-btn-ghost {
+  background: transparent;
+  color: var(--mid);
+  border: 0.5px solid var(--border);
+}
+
+.inv-btn-ghost:hover { background: #f0f0f0; color: var(--ink); }
+
+.inv-btn-urgent {
+  background: var(--bad);
+  color: white;
+}
+
+.inv-btn-urgent:hover { background: #8a2424; }
+
+/* ---- System alert log --------------------------------- */
+.alert-log {
+  background: var(--card);
+  border: 0.5px solid rgba(12,12,12,0.12);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.alert-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid rgba(12,12,12,0.07);
+  font-size: 12px;
+  transition: background 0.15s;
+}
+
+.alert-row:last-child { border-bottom: none; }
+.alert-row:hover { background: #fafafa; }
+
+.alert-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.red-dot   { background: #e24b4a; }
+.amber-dot { background: #ef9f27; }
+.green-dot { background: #639922; }
+
+.alert-msg {
+  flex: 1;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.alert-time {
+  font-size: 10px;
+  color: var(--mid);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pay-table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+}
+
+/* ---- Responsive --------------------------------------- */
+@media (max-width: 900px) {
+  /* Hide some columns on mobile for the wide admin table */
+  .pay-table th:nth-child(3),
+  .pay-table td:nth-child(3) { display: none; }
+}
+
+@media (max-width: 640px) {
+  .inventory-grid { grid-template-columns: 1fr; }
+  .admin-section-header { flex-direction: column; align-items: flex-start; }
+  .action-btns { gap: 2px; }
+  .admin-toast { left: 16px; right: 16px; bottom: 16px; }
+}

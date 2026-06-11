@@ -1,0 +1,373 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Dashboard — VIRS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="staff_dashboard.css" />
+</head>
+<body class="dash-page">
+
+  <!-- ── SHARED NAV ──────────────────────────────────────── -->
+  <nav class="nav scrolled" id="navbar">
+    <a href="index.html" class="nav-logo">VIRS</a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#roles">Roles</a>
+    </div>
+    <div class="nav-user-area">
+      <span class="nav-user-info">
+        <i class="ti ti-tag" aria-hidden="true"></i>
+        <span id="nav-username">SELLER_JOHN</span>
+        <span class="nav-role-badge seller-badge">Seller</span>
+      </span>
+      <a href="sign_in.html" class="nav-cta">
+        <i class="ti ti-logout" aria-hidden="true"></i> Logout
+      </a>
+    </div>
+  </nav>
+
+  <main class="dash-main">
+
+    <!-- ── Page header ── -->
+    <div class="dash-header">
+      <div class="dash-header-left">
+        <h1 class="dash-title">Staff Dashboard</h1>
+        <p class="dash-sub">God's Wish Boutique · Seller portal · Semester: 2025/2026 Second</p>
+      </div>
+      <div class="deadline-pill">
+        <i class="ti ti-clock" aria-hidden="true"></i>
+        Semester closes in <strong>19 days</strong>
+      </div>
+    </div>
+
+    <!-- ── Summary metrics ── -->
+    <div class="metrics-row">
+      <div class="metric-card stagger-1">
+        <div class="metric-icon warn-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Active debtors</p>
+          <p class="metric-value warn">24</p>
+        </div>
+      </div>
+      <div class="metric-card stagger-2">
+        <div class="metric-icon bad-icon"><i class="ti ti-receipt-2" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Total outstanding</p>
+          <p class="metric-value bad">₦312,400</p>
+        </div>
+      </div>
+      <div class="metric-card stagger-3">
+        <div class="metric-icon ok-icon"><i class="ti ti-check" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Payments today</p>
+          <p class="metric-value ok">3</p>
+        </div>
+      </div>
+      <div class="metric-card stagger-4">
+        <div class="metric-icon"><i class="ti ti-alert-circle" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Overdue plans</p>
+          <p class="metric-value bad">5</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Log a payment (INSERT only — no edit) ── -->
+    <div class="staff-section-header">
+      <h2 class="section-heading" style="margin:0">Log a payment</h2>
+      <span class="perm-badge"><i class="ti ti-lock" aria-hidden="true"></i> Insert only — cannot edit past records</span>
+    </div>
+
+    <div class="log-payment-card stagger-1">
+      <div class="log-grid">
+
+        <div class="form-field">
+          <label for="pay-order-id">Order ID</label>
+          <div class="input-wrap">
+            <i class="ti ti-hash input-icon" aria-hidden="true"></i>
+            <input type="text" id="pay-order-id" placeholder="e.g. ORD-2024-0041" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="pay-amount">Amount (₦)</label>
+          <div class="input-wrap">
+            <i class="ti ti-currency-naira input-icon" aria-hidden="true"></i>
+            <input type="number" id="pay-amount" placeholder="e.g. 5000" min="0" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="pay-method">Payment method</label>
+          <div class="input-wrap">
+            <i class="ti ti-credit-card input-icon" aria-hidden="true"></i>
+            <select id="pay-method" class="select-input">
+              <option value="">Select method</option>
+              <option value="cash">Cash</option>
+              <option value="card">Card (POS)</option>
+              <option value="transfer">Bank transfer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="pay-ref">Moniepoint ref</label>
+          <div class="input-wrap">
+            <i class="ti ti-fingerprint input-icon" aria-hidden="true"></i>
+            <input type="text" id="pay-ref" placeholder="e.g. MNP-20260606-XXXX" />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="log-form-footer">
+        <p class="log-note"><i class="ti ti-info-circle" aria-hidden="true"></i> This entry will be permanent once logged. Only the Boss can delete it.</p>
+        <button class="btn-log" onclick="logPayment()">
+          <i class="ti ti-plus" aria-hidden="true"></i>
+          <span id="log-btn-text">Log payment</span>
+        </button>
+      </div>
+
+      <!-- Success message -->
+      <div class="log-success" id="log-success" style="display:none">
+        <i class="ti ti-circle-check" aria-hidden="true"></i>
+        Payment logged successfully. Moniepoint reference saved.
+      </div>
+    </div>
+
+    <!-- ── Active debtors list ── -->
+    <h2 class="section-heading">Active debtors</h2>
+
+    <div class="table-wrapper">
+      <table class="pay-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Matric no.</th>
+            <th>Order</th>
+            <th class="col-right">Total</th>
+            <th class="col-right">Paid</th>
+            <th class="col-right">Balance</th>
+            <th>Progress</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="stagger-1">
+            <td>
+              <div class="debtor-name-cell">
+                <div class="debtor-avatar">CA</div>
+                Chukwuemeka Adeyemi
+              </div>
+            </td>
+            <td class="mono-cell">24CG000001</td>
+            <td class="mono-cell">#ORD-2024-0041</td>
+            <td class="col-right">₦30,000</td>
+            <td class="col-right ok fw">₦25,000</td>
+            <td class="col-right bad fw">₦5,000</td>
+            <td>
+              <div class="mini-progress-track">
+                <div class="mini-progress-bar" style="--w:83%; background:var(--ink)"></div>
+              </div>
+              <span class="mini-pct">83%</span>
+            </td>
+            <td><span class="status-badge active-badge">Active</span></td>
+          </tr>
+          <tr class="stagger-2">
+            <td>
+              <div class="debtor-name-cell">
+                <div class="debtor-avatar">FO</div>
+                Funmilayo Okafor
+              </div>
+            </td>
+            <td class="mono-cell">24CG000002</td>
+            <td class="mono-cell">#ORD-2024-0063</td>
+            <td class="col-right">₦22,000</td>
+            <td class="col-right ok fw">₦13,200</td>
+            <td class="col-right bad fw">₦8,800</td>
+            <td>
+              <div class="mini-progress-track">
+                <div class="mini-progress-bar" style="--w:60%; background:var(--ink)"></div>
+              </div>
+              <span class="mini-pct">60%</span>
+            </td>
+            <td><span class="status-badge active-badge">Active</span></td>
+          </tr>
+          <tr class="stagger-3">
+            <td>
+              <div class="debtor-name-cell">
+                <div class="debtor-avatar" style="background:var(--bad)">SO</div>
+                Segun Ojo
+              </div>
+            </td>
+            <td class="mono-cell">24CG000003</td>
+            <td class="mono-cell">#ORD-2024-0058</td>
+            <td class="col-right">₦18,000</td>
+            <td class="col-right ok fw">₦8,100</td>
+            <td class="col-right bad fw">₦9,900</td>
+            <td>
+              <div class="mini-progress-track">
+                <div class="mini-progress-bar" style="--w:45%; background:var(--bad)"></div>
+              </div>
+              <span class="mini-pct bad">45%</span>
+            </td>
+            <td><span class="status-badge overdue-badge">Overdue</span></td>
+          </tr>
+          <tr class="stagger-4">
+            <td>
+              <div class="debtor-name-cell">
+                <div class="debtor-avatar">AN</div>
+                Adaeze Nwosu
+              </div>
+            </td>
+            <td class="mono-cell">24CG000004</td>
+            <td class="mono-cell">#ORD-2024-0071</td>
+            <td class="col-right">₦41,000</td>
+            <td class="col-right ok fw">₦29,520</td>
+            <td class="col-right bad fw">₦11,480</td>
+            <td>
+              <div class="mini-progress-track">
+                <div class="mini-progress-bar" style="--w:72%; background:var(--ink)"></div>
+              </div>
+              <span class="mini-pct">72%</span>
+            </td>
+            <td><span class="status-badge active-badge">Active</span></td>
+          </tr>
+          <tr class="stagger-4">
+            <td>
+              <div class="debtor-name-cell">
+                <div class="debtor-avatar" style="background:var(--bad)">BM</div>
+                Babatunde Martins
+              </div>
+            </td>
+            <td class="mono-cell">24CG000005</td>
+            <td class="mono-cell">#ORD-2024-0049</td>
+            <td class="col-right">₦18,000</td>
+            <td class="col-right ok fw">₦8,100</td>
+            <td class="col-right bad fw">₦9,900</td>
+            <td>
+              <div class="mini-progress-track">
+                <div class="mini-progress-bar" style="--w:45%; background:var(--bad)"></div>
+              </div>
+              <span class="mini-pct bad">45%</span>
+            </td>
+            <td><span class="status-badge overdue-badge">Overdue</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── Inventory: read-only for sellers ── -->
+    <div class="staff-section-header" style="margin-top:28px">
+      <h2 class="section-heading" style="margin:0">Inventory status</h2>
+      <span class="perm-badge"><i class="ti ti-eye" aria-hidden="true"></i> View only — Admin manages restock</span>
+    </div>
+
+    <div class="inventory-grid stagger-1">
+
+      <div class="inv-card">
+        <div class="inv-left">
+          <p class="inv-name">Corporate Suit — Navy Blue</p>
+          <p class="inv-meta">Corporate · Vendor: Lagos Suits Co.</p>
+        </div>
+        <div class="inv-chips">
+          <span class="inv-chip avail-chip"><i class="ti ti-package" aria-hidden="true"></i> 4 available</span>
+          <span class="inv-chip alloc-chip">3 allocated</span>
+          <span class="inv-chip total-chip">7 physical</span>
+        </div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-left">
+          <p class="inv-name">Casual Hoodie — Black</p>
+          <p class="inv-meta">Casual · Vendor: UniWear Ltd.</p>
+        </div>
+        <div class="inv-chips">
+          <span class="inv-chip avail-chip">2 available</span>
+          <span class="inv-chip alloc-chip">5 allocated</span>
+          <span class="inv-chip total-chip">7 physical</span>
+        </div>
+      </div>
+
+      <div class="inv-card zero-card">
+        <div class="inv-left">
+          <p class="inv-name">Sport Joggers — Grey Melange</p>
+          <p class="inv-meta">Sport · Vendor: ActiveGear NG · <span style="color:var(--bad);font-weight:600">ALERT: Zero available</span></p>
+        </div>
+        <div class="inv-chips">
+          <span class="inv-chip zero-chip">0 available</span>
+          <span class="inv-chip alloc-chip">2 allocated</span>
+          <span class="inv-chip total-chip">2 physical</span>
+        </div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-left">
+          <p class="inv-name">Leather Belt — Brown</p>
+          <p class="inv-meta">Accessory · Vendor: CraftLeather Ibadan</p>
+        </div>
+        <div class="inv-chips">
+          <span class="inv-chip avail-chip">7 available</span>
+          <span class="inv-chip alloc-chip">1 allocated</span>
+          <span class="inv-chip total-chip">8 physical</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Today's payment log ── -->
+    <h2 class="section-heading" style="margin-top:28px">Today's logged payments</h2>
+
+    <div class="table-wrapper" style="margin-bottom:60px">
+      <table class="pay-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Order</th>
+            <th>Moniepoint ref</th>
+            <th>Method</th>
+            <th class="col-right">Amount</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody id="today-payments-body">
+          <tr>
+            <td>Adaeze Nwosu</td>
+            <td class="mono-cell">#ORD-2024-0071</td>
+            <td class="mono-cell">MNP-20260606-3341</td>
+            <td><span class="method-chip">Transfer</span></td>
+            <td class="col-right ok fw">₦5,000</td>
+            <td class="mono-cell">09:14</td>
+          </tr>
+          <tr>
+            <td>Funmilayo Okafor</td>
+            <td class="mono-cell">#ORD-2024-0063</td>
+            <td class="mono-cell">MNP-20260606-3390</td>
+            <td><span class="method-chip">Cash</span></td>
+            <td class="col-right ok fw">₦3,200</td>
+            <td class="mono-cell">11:02</td>
+          </tr>
+          <tr>
+            <td>Chukwuemeka Adeyemi</td>
+            <td class="mono-cell">#ORD-2024-0041</td>
+            <td class="mono-cell">MNP-20260606-3412</td>
+            <td><span class="method-chip">Card</span></td>
+            <td class="col-right ok fw">₦2,000</td>
+            <td class="mono-cell">13:47</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <script src="staff_dashboard.js"></script>
+</body>
+</html>
+

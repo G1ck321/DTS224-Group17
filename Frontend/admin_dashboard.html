@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — VIRS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="admin_dashboard.css" />
+</head>
+<body class="dash-page">
+
+  <nav class="nav scrolled" id="navbar">
+    <a href="index.html" class="nav-logo">VIRS</a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#roles">Roles</a>
+    </div>
+    <div class="nav-user-area">
+      <span class="nav-user-info">
+        <i class="ti ti-crown" aria-hidden="true"></i>
+        <span id="nav-username">ADMIN_01</span>
+        <span class="nav-role-badge boss-badge">Admin</span>
+      </span>
+      <a href="sign_in.html" class="nav-cta">
+        <i class="ti ti-logout" aria-hidden="true"></i> Logout
+      </a>
+    </div>
+  </nav>
+
+  <main class="dash-main">
+
+    <div class="dash-header">
+      <div class="dash-header-left">
+        <h1 class="dash-title">Admin Dashboard</h1>
+        <p class="dash-sub">God's Wish Boutique · Admin portal · Semester: 2025/2026 Second · Closes Jun 22, 2026</p>
+      </div>
+      <div class="deadline-pill">
+        <i class="ti ti-clock" aria-hidden="true"></i>
+        Semester closes in <strong>19 days</strong>
+      </div>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-card stagger-1">
+        <div class="metric-icon warn-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Total debtors</p>
+          <p class="metric-value warn">24</p>
+        </div>
+      </div>
+      <div class="metric-card stagger-2">
+        <div class="metric-icon bad-icon"><i class="ti ti-receipt-2" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Total outstanding</p>
+          <p class="metric-value bad">&#8358;312,400</p>
+        </div>
+      </div>
+      <div class="metric-card stagger-3">
+        <div class="metric-icon ok-icon"><i class="ti ti-check" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Settled this sem.</p>
+          <p class="metric-value ok">&#8358;187,000</p>
+        </div>
+      </div>
+      <div class="metric-card stagger-4">
+        <div class="metric-icon"><i class="ti ti-alert-circle" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Overdue plans</p>
+          <p class="metric-value bad">5</p>
+        </div>
+      </div>
+      <div class="metric-card stagger-4">
+        <div class="metric-icon"><i class="ti ti-package" aria-hidden="true"></i></div>
+        <div>
+          <p class="metric-label">Items in hold</p>
+          <p class="metric-value">18</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-section-header">
+      <h2 class="section-heading" style="margin:0">All students with outstanding balance</h2>
+      <span class="admin-badge"><i class="ti ti-crown" aria-hidden="true"></i> Full access — edit, delete, refund</span>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="pay-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Matric no.</th>
+            <th>Hall / Room</th>
+            <th>Orders</th>
+            <th class="col-right">Total owed</th>
+            <th>Progress</th>
+            <th>Status</th>
+            <th class="col-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="stagger-1">
+            <td><div class="debtor-name-cell"><div class="debtor-avatar">CA</div>Chukwuemeka Adeyemi</div></td>
+            <td class="mono-cell">24CG000001</td>
+            <td class="mono-cell">Peter Hall D302</td>
+            <td>2 active</td>
+            <td class="col-right bad fw">&#8358;14,900</td>
+            <td>
+              <div class="mini-bar-wrap">
+                <div class="mini-progress-track"><div class="mini-progress-bar" style="--w:83%;background:var(--ink)"></div></div>
+                <span class="mini-pct">83%</span>
+              </div>
+            </td>
+            <td><span class="status-badge active-badge">Active</span></td>
+            <td class="col-right">
+              <div class="action-btns">
+                <button class="action-btn edit-btn" title="Edit record" onclick="adminAction('edit','Chukwuemeka')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+                <button class="action-btn refund-btn" title="Issue refund" onclick="adminAction('refund','Chukwuemeka')"><i class="ti ti-rotate-clockwise" aria-hidden="true"></i></button>
+                <button class="action-btn delete-btn" title="Delete record" onclick="adminAction('delete','Chukwuemeka')"><i class="ti ti-trash" aria-hidden="true"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="stagger-2">
+            <td><div class="debtor-name-cell"><div class="debtor-avatar">FO</div>Funmilayo Okafor</div></td>
+            <td class="mono-cell">24CG000002</td>
+            <td class="mono-cell">Esther Hall A302</td>
+            <td>1 active</td>
+            <td class="col-right bad fw">&#8358;22,000</td>
+            <td>
+              <div class="mini-bar-wrap">
+                <div class="mini-progress-track"><div class="mini-progress-bar" style="--w:60%;background:var(--ink)"></div></div>
+                <span class="mini-pct">60%</span>
+              </div>
+            </td>
+            <td><span class="status-badge active-badge">Active</span></td>
+            <td class="col-right">
+              <div class="action-btns">
+                <button class="action-btn edit-btn" title="Edit record" onclick="adminAction('edit','Funmilayo')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+                <button class="action-btn refund-btn" title="Issue refund" onclick="adminAction('refund','Funmilayo')"><i class="ti ti-rotate-clockwise" aria-hidden="true"></i></button>
+                <button class="action-btn delete-btn" title="Delete record" onclick="adminAction('delete','Funmilayo')"><i class="ti ti-trash" aria-hidden="true"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="stagger-3 overdue-row">
+            <td><div class="debtor-name-cell"><div class="debtor-avatar" style="background:var(--bad)">SO</div>Segun Ojo</div></td>
+            <td class="mono-cell">24CG000003</td>
+            <td class="mono-cell">Daniel Hall G105</td>
+            <td>1 active</td>
+            <td class="col-right bad fw">&#8358;28,500</td>
+            <td>
+              <div class="mini-bar-wrap">
+                <div class="mini-progress-track"><div class="mini-progress-bar" style="--w:38%;background:var(--bad)"></div></div>
+                <span class="mini-pct bad">38%</span>
+              </div>
+            </td>
+            <td><span class="status-badge overdue-badge">Overdue</span></td>
+            <td class="col-right">
+              <div class="action-btns">
+                <button class="action-btn edit-btn" title="Edit record" onclick="adminAction('edit','Segun')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+                <button class="action-btn refund-btn" title="Issue refund" onclick="adminAction('refund','Segun')"><i class="ti ti-rotate-clockwise" aria-hidden="true"></i></button>
+                <button class="action-btn delete-btn" title="Delete record" onclick="adminAction('delete','Segun')"><i class="ti ti-trash" aria-hidden="true"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="stagger-4">
+            <td><div class="debtor-name-cell"><div class="debtor-avatar">AN</div>Adaeze Nwosu</div></td>
+            <td class="mono-cell">24CG000004</td>
+            <td class="mono-cell">Joseph Hall A107</td>
+            <td>3 active</td>
+            <td class="col-right bad fw">&#8358;41,000</td>
+            <td>
+              <div class="mini-bar-wrap">
+                <div class="mini-progress-track"><div class="mini-progress-bar" style="--w:72%;background:var(--ink)"></div></div>
+                <span class="mini-pct">72%</span>
+              </div>
+            </td>
+            <td><span class="status-badge active-badge">Active</span></td>
+            <td class="col-right">
+              <div class="action-btns">
+                <button class="action-btn edit-btn" title="Edit record" onclick="adminAction('edit','Adaeze')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+                <button class="action-btn refund-btn" title="Issue refund" onclick="adminAction('refund','Adaeze')"><i class="ti ti-rotate-clockwise" aria-hidden="true"></i></button>
+                <button class="action-btn delete-btn" title="Delete record" onclick="adminAction('delete','Adaeze')"><i class="ti ti-trash" aria-hidden="true"></i></button>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="stagger-4 overdue-row">
+            <td><div class="debtor-name-cell"><div class="debtor-avatar" style="background:var(--bad)">BM</div>Babatunde Martins</div></td>
+            <td class="mono-cell">24CG000005</td>
+            <td class="mono-cell">John Hall C404</td>
+            <td>1 active</td>
+            <td class="col-right bad fw">&#8358;18,000</td>
+            <td>
+              <div class="mini-bar-wrap">
+                <div class="mini-progress-track"><div class="mini-progress-bar" style="--w:45%;background:var(--bad)"></div></div>
+                <span class="mini-pct bad">45%</span>
+              </div>
+            </td>
+            <td><span class="status-badge overdue-badge">Overdue</span></td>
+            <td class="col-right">
+              <div class="action-btns">
+                <button class="action-btn edit-btn" title="Edit record" onclick="adminAction('edit','Babatunde')"><i class="ti ti-edit" aria-hidden="true"></i></button>
+                <button class="action-btn refund-btn" title="Issue refund" onclick="adminAction('refund','Babatunde')"><i class="ti ti-rotate-clockwise" aria-hidden="true"></i></button>
+                <button class="action-btn delete-btn" title="Delete record" onclick="adminAction('delete','Babatunde')"><i class="ti ti-trash" aria-hidden="true"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="admin-toast" id="admin-toast"></div>
+
+    <div class="admin-section-header" style="margin-top:28px">
+      <h2 class="section-heading" style="margin:0">Inventory management</h2>
+      <span class="admin-badge"><i class="ti ti-crown" aria-hidden="true"></i> Admin only — restock & adjust</span>
+    </div>
+
+    <div class="inventory-grid stagger-1">
+      <div class="inv-card">
+        <div class="inv-left">
+          <p class="inv-name">Corporate Suit — Navy Blue</p>
+          <p class="inv-meta">Corporate · Vendor: Lagos Suits Co.</p>
+        </div>
+        <div class="inv-chips">
+          <span class="inv-chip avail-chip">4 available</span>
+          <span class="inv-chip alloc-chip">3 allocated</span>
+          <span class="inv-chip total-chip">7 physical</span>
+        </div>
+        <div class="inv-actions">
+          <button class="inv-btn" onclick="adminAction('restock','Corporate Suit')"><i class="ti ti-plus" aria-hidden="true"></i> Restock</button>
+          <button class="inv-btn inv-btn-ghost" onclick="adminAction('edit-stock','Corporate Suit')"><i class="ti ti-edit" aria-hidden="true"></i> Adjust</button>
+        </div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-left">
+          <p class="inv-name">Casual Hoodie — Black</p>
+          <p class="inv-meta">Casual · Vendor: UniWear Ltd.</p>
+        </div>
+        <div class="inv-chips">
+          <span class="inv-chip avail-chip">2 available</span>
+          <span class="inv-chip alloc-chip">5 allocated</span>
+          <span class="inv-chip total-chip">7 physical</span>
+        </div>
+        <div class="inv-actions">
+          <button class="inv-btn" onclick="adminAction('restock','Casual Hoodie')"><i class="ti ti-plus" aria-hidden="true"></i> Restock</button>
+          <button class="inv-btn inv-btn-ghost" onclick="adminAction('edit-stock','Casual Hoodie')"><i class="ti ti-edit" aria-hidden="true"></i> Adjust</button>
+        </div>
+      </div>
+
+      <div class="inv-card zero-card">
+        <div class="inv-left">
+          <p class="inv-name">Sport Joggers — Grey Melange</p>
+          <p class="inv-meta">Sport · Vendor: ActiveGear NG · <strong style="color:var(--bad)">ZERO STOCK — RESTOCK NOW</strong></p>
+        </div>
+        <div class="inv-chips">
+          <span class="inv-chip zero-chip">0 available</span>
+          <span class="inv-chip alloc-chip">2 allocated</span>
+          <span class="inv-chip total-chip">2 physical</span>
+        </div>
+        <div class="inv-actions">
+          <button class="inv-btn inv-btn-urgent" onclick="adminAction('restock','Sport Joggers')"><i class="ti ti-plus" aria-hidden="true"></i> Restock urgently</button>
+          <button class="inv-btn inv-btn-ghost" onclick="adminAction('edit-stock','Sport Joggers')"><i class="ti ti-edit" aria-hidden="true"></i> Adjust</button>
+        </div>
+      </div>
+
+      <div class="inv-card">
+        <div class="inv-left">
+          <p class="inv-name">Leather Belt — Brown</p>
+          <p class="inv-meta">Accessory · Vendor: CraftLeather Ibadan</p>
+        </div>
+        <div class="inv-chips">
+          <span class="inv-chip avail-chip">7 available</span>
+          <span class="inv-chip alloc-chip">1 allocated</span>
+          <span class="inv-chip total-chip">8 physical</span>
+        </div>
+        <div class="inv-actions">
+          <button class="inv-btn" onclick="adminAction('restock','Leather Belt')"><i class="ti ti-plus" aria-hidden="true"></i> Restock</button>
+          <button class="inv-btn inv-btn-ghost" onclick="adminAction('edit-stock','Leather Belt')"><i class="ti ti-edit" aria-hidden="true"></i> Adjust</button>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-heading" style="margin-top:28px">System alert log</h2>
+    <div class="alert-log stagger-1" style="margin-bottom:60px">
+
+      <div class="alert-row">
+        <span class="alert-dot amber-dot"></span>
+        <span class="alert-msg"><strong>Adaeze Nwosu</strong> reached 80% on order #ORD-2024-0071. Telegram alert queued automatically.</span>
+        <span class="alert-time">Today 09:12</span>
+      </div>
+
+      <div class="alert-row">
+        <span class="alert-dot green-dot"></span>
+        <span class="alert-msg">Order #ORD-2024-0029 (Casual Hoodie ×2) settled 100%. Item released from allocated hold.</span>
+        <span class="alert-time">May 1, 10:44</span>
+      </div>
+
+      <div class="alert-row">
+        <span class="alert-dot red-dot"></span>
+        <span class="alert-msg">Stock alert: <strong>Sport Joggers (Grey Melange)</strong> hit 0 available units. Floor sales blocked automatically.</span>
+        <span class="alert-time">Apr 28, 15:30</span>
+      </div>
+
+      <div class="alert-row">
+        <span class="alert-dot amber-dot"></span>
+        <span class="alert-msg"><strong>Chukwuemeka Adeyemi</strong> reached 83% on order #ORD-2024-0041. Telegram alert queued automatically.</span>
+        <span class="alert-time">Apr 30, 18:05</span>
+      </div>
+
+      <div class="alert-row">
+        <span class="alert-dot red-dot"></span>
+        <span class="alert-msg">Overdue flag raised for <strong>Segun Ojo</strong> — order #ORD-2024-0058 passed semester deadline without full payment.</span>
+        <span class="alert-time">May 15, 00:00</span>
+      </div>
+
+      <div class="alert-row">
+        <span class="alert-dot red-dot"></span>
+        <span class="alert-msg">Overdue flag raised for <strong>Babatunde Martins</strong> — order #ORD-2024-0049 passed semester deadline without full payment.</span>
+        <span class="alert-time">May 15, 00:00</span>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="admin_dashboard.js"></script>
+</body>
+</html>

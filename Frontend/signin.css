@@ -1,0 +1,367 @@
+/* ============================================================
+   signin.css — Sign-in page styles
+   Inherits variables from home.css
+============================================================ */
+
+/* ---- Override: scroll-reveal not needed here ----------- */
+.signin-page .reveal,
+.signin-page .scroll-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Page background -----------------------------------  */
+.signin-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* ---- Two-column layout --------------------------------- */
+.signin-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  padding-top: 58px; /* height of the fixed nav */
+}
+
+/* ---- Left panel: dark branding side ------------------- */
+.signin-left {
+  background: var(--ink);
+  padding: 60px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle dot grid same as hero */
+.signin-left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(223,223,223,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.signin-brand { position: relative; z-index: 1; }
+
+.signin-logo {
+  font-family: var(--font-display);
+  font-size: 52px;
+  color: var(--bg);
+  letter-spacing: 0.08em;
+  display: block;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.signin-tagline {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* Info bullet list */
+.signin-info {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.sinfo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.sinfo-item > .ti {
+  font-size: 20px;
+  color: #444;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.sinfo-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #bbb;
+  margin-bottom: 4px;
+}
+
+.sinfo-sub {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.signin-footer-note {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: #333;
+  letter-spacing: 0.05em;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Right panel: form side --------------------------- */
+.signin-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+  background: var(--bg);
+}
+
+.signin-card {
+  width: 100%;
+  max-width: 400px;
+  animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.signin-card-header {
+  margin-bottom: 28px;
+}
+
+.signin-title {
+  font-family: var(--font-display);
+  font-size: 38px;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.signin-sub {
+  font-size: 13px;
+  color: var(--mid);
+}
+
+/* ---- Role tabs ---------------------------------------- */
+.role-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 24px;
+  background: #e8e8e8;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.rtab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-size: 12px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--mid);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.rtab .ti { font-size: 13px; }
+
+.rtab:hover:not(.active) {
+  background: rgba(12,12,12,0.06);
+  color: var(--ink);
+}
+
+.rtab.active {
+  background: var(--ink);
+  color: var(--bg);
+  transform: none;
+}
+
+/* ---- Form fields -------------------------------------- */
+.signin-form { display: flex; flex-direction: column; gap: 16px; }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--mid);
+  letter-spacing: 0.02em;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 15px;
+  color: #aaa;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.input-wrap input {
+  width: 100%;
+  padding: 11px 40px 11px 38px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-wrap input:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(12,12,12,0.07);
+}
+
+.pw-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: color 0.2s;
+  font-size: 15px;
+}
+
+.pw-toggle:hover { color: var(--ink); }
+
+/* ---- Error message ------------------------------------ */
+.form-error {
+  font-size: 12px;
+  color: var(--bad);
+  min-height: 16px;
+  display: block;
+}
+
+/* ---- Sign-in button ----------------------------------- */
+.btn-signin {
+  width: 100%;
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-signin:hover  { background: #2a2a2a; transform: translateY(-1px); }
+.btn-signin:active { transform: scale(0.97); }
+
+/* Ripple */
+.btn-signin .ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transform: scale(0);
+  animation: ripple 0.5s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* Spinner */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinning { animation: spin 0.7s linear infinite; }
+
+/* ---- Demo chips --------------------------------------- */
+.demo-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.demo-label {
+  font-size: 11px;
+  color: #aaa;
+  font-family: var(--font-mono);
+}
+
+.demo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-family: var(--font-body);
+  background: #e8e8e8;
+  color: var(--mid);
+  border: none;
+  border-radius: 20px;
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.demo-chip:hover {
+  background: var(--ink);
+  color: var(--bg);
+  transform: translateY(-1px);
+}
+
+/* ---- Nav: active state for "Sign in" link ------------- */
+.nav-cta-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--bg);
+  padding: 7px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: default;
+  opacity: 0.7;
+}
+
+/* ---- Responsive --------------------------------------- */
+@media (max-width: 768px) {
+  .signin-main {
+    grid-template-columns: 1fr;
+  }
+  .signin-left {
+    padding: 40px 28px;
+    min-height: 260px;
+  }
+  .signin-logo { font-size: 40px; }
+  .signin-info { display: none; } /* hide on small screens */
+  .signin-right { padding: 32px 24px; }
+}
