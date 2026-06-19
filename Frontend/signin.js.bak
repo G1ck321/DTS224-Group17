@@ -47,57 +47,22 @@ function handleSignIn(e) {
   icon.className = 'ti ti-loader spinning';
   btn.disabled = true;
 
-  // setTimeout(() => {
-  //   btn.disabled = false;
-  //   text.textContent = 'Sign in';
-  //   icon.className = 'ti ti-arrow-right';
+  setTimeout(() => {
+    btn.disabled = false;
+    text.textContent = 'Sign in';
+    icon.className = 'ti ti-arrow-right';
 
 
-  //   if (currentRole === 'student') {
-  //     window.location.href = 'dashboard.html';
-  //   } else if (currentRole === 'seller') {
-  //     // Your teammate's page — update this href when ready
-  //     window.location.href = 'staff_dashboard.html';
-  //   } else if (currentRole === 'boss') {
-  //     // Your teammate's page — update this href when ready
-  //     window.location.href = 'admin_dashboard.html';
-  //   }
-  // }, 800);
-  
-  fetch('http://localhost:5000/api/v1/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: id, password: pw })
-  })
-  .then(res => {
-    if (!res.ok) {
-      throw new Error('Authentication failed. Check your username and password.');
-    }
-    return res.json();
-  })
-  .then(data => {
-    // Save the security JWT token and user details inside the browser's memory
-    localStorage.setItem('virs_token', data.token);
-    localStorage.setItem('virs_user_role', data.user.role);
-
-    // Route the user to the correct dashboard based on their database role
-    if (data.user.role === 'Student') {
+    if (currentRole === 'student') {
       window.location.href = 'dashboard.html';
-    } else if (data.user.role === 'Seller') {
+    } else if (currentRole === 'seller') {
+      // Your teammate's page — update this href when ready
       window.location.href = 'staff_dashboard.html';
-    } else if (data.user.role === 'Boss') {
+    } else if (currentRole === 'boss') {
+      // Your teammate's page — update this href when ready
       window.location.href = 'admin_dashboard.html';
     }
-  })
-  .catch(err => {
-    // Reset button states if the database rejects the login
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    const btnText = document.getElementById('btn-text');
-    if (btnText) btnText.textContent = 'Sign in';
-    
-    showError(err.message || 'Could not connect to the authentication server.');
-  });
+  }, 800);
 }
 
 /* ── Quick demo login shortcuts ─────────────────────── */
