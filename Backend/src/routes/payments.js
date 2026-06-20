@@ -1,3 +1,4 @@
+//routes/payment.js
 import express from 'express';
 import { logPayment } from '../controllers/paymentController.js';
 import authorize from '../middleware/authorize.js';

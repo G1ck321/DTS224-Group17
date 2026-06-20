@@ -1,3 +1,4 @@
+//middleware/authorize.js
 import jwt from 'jsonwebtoken';
 
 export default function authorize(...allowedRoles) {

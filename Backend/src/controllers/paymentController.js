@@ -1,3 +1,4 @@
+//controllers/paymentController.js
 import pool from '../config/db.js';
 
 export const logPayment = async (req, res) => {
