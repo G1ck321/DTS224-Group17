@@ -35,76 +35,26 @@ function logPayment() {
   btn.disabled = true;
   btn.style.opacity = '0.7';
 
-  // setTimeout(() => {
-  //   btn.disabled = false;
-  //   btn.style.opacity = '1';
-  //   txt.textContent = 'Log payment';
-
-  //   // Append to today's table
-  //   appendTodayRow(orderId, ref, method, amount);
-
-  //   // Show success message
-  //   const success = document.getElementById('log-success');
-  //   success.classList.add('visible');
-  //   setTimeout(() => success.classList.remove('visible'), 4000);
-
-  //   // Clear form
-  //   document.getElementById('pay-order-id').value = '';
-  //   document.getElementById('pay-amount').value = '';
-  //   document.getElementById('pay-method').value = '';
-  //   document.getElementById('pay-ref').value = '';
-
-  // }, 800);
-
-  fetch('http://localhost:5000/api/v1/payments/log', {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      // Attach the token we saved during sign-in to prove who logged this payment
-      'Authorization': `Bearer ${localStorage.getItem('virs_token')}`
-    },
-    body: JSON.stringify({ 
-      order_id: orderId, 
-      amount_paid: Number(amount), 
-      payment_method: method.toLowerCase(), 
-      moniepoint_ref: ref 
-    })
-  })
-  .then(res => {
-    if (!res.ok) {
-      throw new Error('Unauthorized or failed to log payment to system ledger.');
-    }
-    return res.json();
-  })
-  .then(data => {
-    // Restore button state
+  setTimeout(() => {
     btn.disabled = false;
     btn.style.opacity = '1';
     txt.textContent = 'Log payment';
 
-    // Append to today's table UI only after database confirms save
+    // Append to today's table
     appendTodayRow(orderId, ref, method, amount);
 
-    // Clear form inputs
+    // Show success message
+    const success = document.getElementById('log-success');
+    success.classList.add('visible');
+    setTimeout(() => success.classList.remove('visible'), 4000);
+
+    // Clear form
     document.getElementById('pay-order-id').value = '';
     document.getElementById('pay-amount').value = '';
+    document.getElementById('pay-method').value = '';
     document.getElementById('pay-ref').value = '';
 
-    // Show beautiful success confirmation bar
-    const success = document.getElementById('log-success');
-    if (success) {
-      success.style.display = 'block';
-      setTimeout(() => success.style.display = 'none', 4000);
-    }
-  })
-  .catch(err => {
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    txt.textContent = 'Log payment';
-    
-    alert(err.message || 'Server connectivity error. Payment not saved.');
-    shakeBtn();
-  });
+  }, 800);
 }
 
 /* ── Append a new row to the today's payments table ─── */
