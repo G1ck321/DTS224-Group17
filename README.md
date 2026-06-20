@@ -1,6 +1,6 @@
 # DTS224-Group17
 
-## Vendor Installation &amp; Restocking System 
+## **Vendor Installation &amp; Restocking Tracking System(VIRTS)**
 This is a group project for DTS224 for Group 17 of the Undergraduate Students of Computer Science for set 2024-2028, the aim of this project is to create a Database Application(Application that invokes a database at least once during It's Operation). 
 We are a group of 15 members, only the developer team made it to the repo.
 
