@@ -13,9 +13,9 @@ export const loginUser = async (req, res) => {
     try {
         // Query database for matching user identity profile
         const [rows] = await pool.execute(
-            'SELECT * FROM USER_ACCOUNT WHERE username = ?', 
-            [username]
-        );
+    'SELECT user_id, username, user_role, password_hash FROM USER_ACCOUNT WHERE username = ?', 
+    [username]
+);
 
         if (rows.length === 0) {
             return res.status(401).json({ error: 'Invalid authentication credentials.' });
@@ -41,9 +41,10 @@ export const loginUser = async (req, res) => {
             message: 'Sign-in authorized.',
             token,
             user: {
-                username: user.username,
-                role: user.user_role
-            }
+               username: user.username,
+        role: user.user_role,
+        
+    }
         });
     } catch (error) {
         console.error(error);
