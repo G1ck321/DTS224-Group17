@@ -3,17 +3,17 @@ let currentRole = 'student';
 const labelMap = {
   student: { label: 'Student ID / Matric number', placeholder: 'e.g. 24CG000001' },
   seller:  { label: 'Staff username',             placeholder: 'e.g. SELLER_JOHN'   },
-  boss:    { label: 'Admin username',             placeholder: 'e.g. ADMIN_01'          },
+  boss:    { label: 'Admin username',             placeholder: 'e.g. ADMIN_01'      },
 };
 
-/* ── Switch role tab ─────────────────────────────────── */
 function setTab(role) {
   currentRole = role;
-
   ['student', 'seller', 'boss'].forEach(r => {
     const el = document.getElementById('tab-' + r);
-    el.classList.toggle('active', r === role);
-    el.setAttribute('aria-selected', r === role);
+    if (el) {
+      el.classList.toggle('active', r === role);
+      el.setAttribute('aria-selected', r === role);
+    }
   });
 
   const { label, placeholder } = labelMap[role];
@@ -24,7 +24,6 @@ function setTab(role) {
   clearError();
 }
 
-/* ── Handle form submit ──────────────────────────────── */
 function handleSignIn(e) {
   e.preventDefault();
   clearError();
@@ -37,7 +36,6 @@ function handleSignIn(e) {
     return;
   }
 
-  // Animate button to loading state
   const btn  = document.getElementById('signin-btn');
   const text = document.getElementById('btn-text');
   const icon = document.getElementById('btn-icon');
@@ -47,23 +45,6 @@ function handleSignIn(e) {
   icon.className = 'ti ti-loader spinning';
   btn.disabled = true;
 
-  // setTimeout(() => {
-  //   btn.disabled = false;
-  //   text.textContent = 'Sign in';
-  //   icon.className = 'ti ti-arrow-right';
-
-
-  //   if (currentRole === 'student') {
-  //     window.location.href = 'dashboard.html';
-  //   } else if (currentRole === 'seller') {
-  //     // Your teammate's page — update this href when ready
-  //     window.location.href = 'staff_dashboard.html';
-  //   } else if (currentRole === 'boss') {
-  //     // Your teammate's page — update this href when ready
-  //     window.location.href = 'admin_dashboard.html';
-  //   }
-  // }, 800);
-  
   fetch('http://localhost:5000/api/v1/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -71,17 +52,18 @@ function handleSignIn(e) {
   })
   .then(res => {
     if (!res.ok) {
-      throw new Error('Authentication failed. Check your username and password.');
+      throw new Error('Authentication failed. Check your credentials.');
     }
     return res.json();
   })
   .then(data => {
-    // Save the security JWT token and user details inside the browser's memory
+    // Standardize all browser memory items under uniform storage keys
     localStorage.setItem('virs_token', data.token);
-    localStorage.setItem('virs_user_role', data.user.role);
+    localStorage.setItem('virs_role', data.user.role.toLowerCase()); 
+    localStorage.setItem('virs_username', data.user.username);
 
-    // Route the user to the correct dashboard based on their database role
-    if (data.user.role === 'Student') {
+    // Dynamic routing driven by secure backend metadata
+    if (data.user.role === 'Student' || currentRole === 'student') {
       window.location.href = 'dashboard.html';
     } else if (data.user.role === 'Seller') {
       window.location.href = 'staff_dashboard.html';
@@ -90,31 +72,20 @@ function handleSignIn(e) {
     }
   })
   .catch(err => {
-    // Reset button states if the database rejects the login
     btn.disabled = false;
-    btn.style.opacity = '1';
-    const btnText = document.getElementById('btn-text');
-    if (btnText) btnText.textContent = 'Sign in';
-    
+    if (text) text.textContent = 'Sign in';
+    if (icon) icon.className = 'ti ti-arrow-right';
     showError(err.message || 'Could not connect to the authentication server.');
   });
 }
 
-/* ── Quick demo login shortcuts ─────────────────────── */
 function quickLogin(role) {
   setTab(role);
   const fills = { student: '24CG000001', seller: 'SELLER_JOHN', boss: 'ADMIN_01' };
   document.getElementById('login-id').value = fills[role];
   document.getElementById('login-pw').value = 'password';
-
-  setTimeout(() => {
-    if (role === 'student') window.location.href = 'dashboard.html';
-    else if (role === 'seller') window.location.href = 'staff_dashboard.html';
-    else if (role === 'boss')   window.location.href = 'admin_dashboard.html';
-  }, 300);
 }
 
-/* ── Password visibility toggle ─────────────────────── */
 function togglePw() {
   const input = document.getElementById('login-pw');
   const eye   = document.getElementById('pw-eye');
@@ -127,17 +98,11 @@ function togglePw() {
   }
 }
 
-/* ── Error helpers ───────────────────────────────────── */
-function showError(msg) {
-  document.getElementById('form-error').textContent = msg;
-}
+function showError(msg) { document.getElementById('form-error').textContent = msg; }
+function clearError() { document.getElementById('form-error').textContent = ''; }
 
-function clearError() {
-  document.getElementById('form-error').textContent = '';
-}
-
-/* ── Ripple effect ───────────────────────────────────── */
 function addRipple(btn, e) {
+  if (!btn) return;
   const rect = btn.getBoundingClientRect();
   const size = Math.max(rect.width, rect.height);
   const x    = (e.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
