@@ -105,3 +105,16 @@ function showNotification(msg, color) {
 function clearNotification() {
   document.getElementById('form-error').textContent = '';
 }
+// Add to the bottom of signin.js and signup.js
+window.addEventListener('pageshow', (event) => {
+  // event.persisted is true if the page was loaded from browser history/cache
+  if (event.persisted) {
+    const btn = document.getElementById('signin-btn') || document.getElementById('signup-btn');
+    const icon = document.getElementById('btn-icon');
+    const text = document.getElementById('btn-text');
+    
+    if (btn) btn.disabled = false;
+    if (icon) icon.className = btn.id === 'signin-btn' ? 'ti ti-arrow-right' : 'ti ti-user-plus';
+    if (text) text.textContent = btn.id === 'signin-btn' ? 'Sign in' : 'Create Account';
+  }
+});

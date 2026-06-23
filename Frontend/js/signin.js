@@ -83,10 +83,24 @@ function handleSignIn(e) {
 }
 
 function quickLogin(role) {
+  // 1. Switch to the correct visual tab
   setTab(role);
+  
+  // 2. Map the correct demo credentials
   const fills = { student: '24CG000001', seller: 'SELLER_JOHN', boss: 'ADMIN_01' };
+  
+  // 3. Auto-fill the input fields
   document.getElementById('login-id').value = fills[role];
   document.getElementById('login-pw').value = 'password';
+
+  // 4. PANEl PRESENTATION TRICK: Automatically submit the form!
+  // This grabs your form and fires a synthetic "submit" event, 
+  // skipping the need to manually click the Sign In button.
+  const form = document.querySelector('.signin-form');
+  if (form) {
+    // We create a new Event that accurately mimics a human pressing 'Enter'
+    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  }
 }
 
 function togglePw() {
@@ -116,3 +130,16 @@ function addRipple(btn, e) {
   btn.appendChild(span);
   span.addEventListener('animationend', () => span.remove());
 }
+// Add to the bottom of signin.js and signup.js
+window.addEventListener('pageshow', (event) => {
+  // event.persisted is true if the page was loaded from browser history/cache
+  if (event.persisted) {
+    const btn = document.getElementById('signin-btn') || document.getElementById('signup-btn');
+    const icon = document.getElementById('btn-icon');
+    const text = document.getElementById('btn-text');
+    
+    if (btn) btn.disabled = false;
+    if (icon) icon.className = btn.id === 'signin-btn' ? 'ti ti-arrow-right' : 'ti ti-user-plus';
+    if (text) text.textContent = btn.id === 'signin-btn' ? 'Sign in' : 'Create Account';
+  }
+});
