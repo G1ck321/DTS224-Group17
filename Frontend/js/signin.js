@@ -87,7 +87,7 @@ function quickLogin(role) {
   setTab(role);
   
   // 2. Map the correct demo credentials
-  const fills = { student: '24CG000001', seller: 'SELLER_JOHN', boss: 'ADMIN_01' };
+  const fills = { student: '24CG000001', seller: 'SELLER_PAUL', boss: 'ADMIN_01' };
   
   // 3. Auto-fill the input fields
   document.getElementById('login-id').value = fills[role];

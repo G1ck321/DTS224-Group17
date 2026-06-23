@@ -21,9 +21,12 @@ app.use(cors({
 // Automatically map incoming JSON body streams to accessible JavaScript objects
 app.use(express.json());
 // ── NEW: GLOBAL TRAFFIC LOGGER ────────────────────────────────────────────────
+// ── GLOBAL TRAFFIC LOGGER ────────────────────────────────────────────────
 app.use((req, res, next) => {
     console.log(`\n[🚦 INCOMING] ${req.method} ${req.url}`);
-    if (Object.keys(req.body).length > 0) {
+    
+    // Add the safety check here: 'req.body &&'
+    if (req.body && Object.keys(req.body).length > 0) {
         console.log(`[📦 PAYLOAD]`, req.body);
     }
     next();
