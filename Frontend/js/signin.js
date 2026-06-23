@@ -47,7 +47,7 @@ function handleSignIn(e) {
 
   const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000/api/v1'
-  : 'https://virts-backend.onrender.com/api/v1';
+  : 'https://dts224-group17.onrender.com/api/v1';
   fetch(`${API_BASE}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
