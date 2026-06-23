@@ -1,11 +1,13 @@
 // routes/auth.js
 import express from 'express';
-import { loginUser, registerUser } from '../controllers/authControllers.js';
+import { loginUser, getStudentDashboardData } from '../controllers/authControllers.js';
+import authorize from '../middleware/authorize.js'; // Existing security gateway
 
 const router = express.Router();
 
-// Authentication Gateways
 router.post('/login', loginUser);
-router.post('/register', registerUser);
+
+// Protected student-only query route
+router.get('/student-profile', authorize('Student'), getStudentDashboardData);
 
 export default router;

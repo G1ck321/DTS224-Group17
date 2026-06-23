@@ -4,50 +4,77 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 /**
- * Log in an existing user profile
+ * Unified Login Gateway supporting Staff Accounts and Student Matric Profiles
  */
 export const loginUser = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        return res.status(400).json({ error: 'Username and password are required elements.' });
+        return res.status(400).json({ error: 'Identification keys and credentials are required.' });
     }
 
     try {
-        // Query database for matching user identity profile
-        const [rows] = await pool.execute(
-            'SELECT user_id, username, user_role, password_hash FROM USER_ACCOUNT WHERE username = ?', 
+        // Look up inside Staff/User accounts first
+        const [staffRows] = await pool.execute(
+            'SELECT user_id, username, user_role, password_hash FROM USER_ACCOUNT WHERE username = ?',
             [username]
         );
 
-        if (rows.length === 0) {
-            return res.status(401).json({ error: 'Invalid authentication credentials.' });
+        if (staffRows.length > 0) {
+            const user = staffRows[0];
+            const isMatch = await bcrypt.compare(password, user.password_hash);
+            if (!isMatch) {
+                return res.status(401).json({ error: 'Invalid authentication credentials.' });
+            }
+
+            const token = jwt.sign(
+                { id: user.user_id, username: user.username, role: user.user_role },
+                process.env.JWT_SECRET,
+                { expiresIn: '8h' }
+            );
+
+            return res.json({
+                message: 'Sign-in authorized.',
+                token,
+                user: { username: user.username, role: user.user_role }
+            });
         }
 
-        const user = rows[0];
-
-        // Decrypt and compare password hash
-        const isMatch = await bcrypt.compare(password, user.password_hash);
-        if (!isMatch) {
-            return res.status(401).json({ error: 'Invalid authentication credentials.' });
-        }
-
-        // Generate an unalterable signed JWT containing role metrics
-        const token = jwt.sign(
-            { user_id: user.user_id, username: user.username, user_role: user.user_role },
-            process.env.JWT_SECRET,
-            { expiresIn: '8h' }
+        // Fallback: Check if user is a Student tracking an installment plan
+        const [customerRows] = await pool.execute(
+            'SELECT customer_id, matric_no FROM CUSTOMER WHERE matric_no = ?',
+            [username]
         );
 
-        // Send back profile parameters and token safely to the browser
-        return res.json({
-            message: 'Sign-in authorized.',
-            token,
-            user: {
-                username: user.username,
-                role: user.user_role
+        if (customerRows.length > 0) {
+            const customer = customerRows[0];
+            
+            // Validate against the academic staging default password
+            if (password !== 'password') {
+                return res.status(401).json({ error: 'Invalid password for student account demo.' });
             }
-        });
+
+            // Fetch name from parent structure
+            const [personRows] = await pool.execute(
+                'SELECT fullname FROM PEOPLE WHERE people_id = ?',
+                [customer.customer_id]
+            );
+            const fullname = personRows[0]?.fullname || 'Student Account';
+
+            const token = jwt.sign(
+                { id: customer.customer_id, username: customer.matric_no, role: 'Student' },
+                process.env.JWT_SECRET,
+                { expiresIn: '8h' }
+            );
+
+            return res.json({
+                message: 'Student balance tracking access granted.',
+                token,
+                user: { username: fullname, role: 'Student' }
+            });
+        }
+
+        return res.status(401).json({ error: 'Identity record not found within system boundaries.' });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -55,47 +82,81 @@ export const loginUser = async (req, res) => {
 };
 
 /**
- * Register a new user profile with optional password (defaults to 'password')
+ * Aggregates live data profiles, active layaways, and hostel metadata for the Student Dashboard
  */
-export const registerUser = async (req, res) => {
-    const { username, role, password } = req.body;
-
-    // Boundary validations
-    if (!username || !role) {
-        return res.status(400).json({ error: 'Username and role are required fields.' });
-    }
-
-    // Force fallback default password if none was submitted via payload
-    const finalPassword = password || 'password';
+export const getStudentDashboardData = async (req, res) => {
+    // Extracted safely via authorization middleware token parsing
+    const customerId = req.user.id; 
 
     try {
-        // Verify username uniqueness constraint
-        const [existing] = await pool.execute(
-            'SELECT username FROM USER_ACCOUNT WHERE username = ?',
-            [username]
+        // Get core structural metrics
+        const [profileRows] = await pool.execute(
+            `SELECT p.fullname, p.email, p.phone_number, c.matric_no, c.telegram_handle 
+             FROM PEOPLE p 
+             JOIN CUSTOMER c ON p.people_id = c.customer_id 
+             WHERE p.people_id = ?`,
+            [customerId]
         );
 
-        if (existing.length > 0) {
-            return res.status(400).json({ error: 'Username already exists within the system boundary.' });
+        if (profileRows.length === 0) {
+            return res.status(404).json({ error: 'Student profile structure missing.' });
         }
 
-        // Securely hash the password string via bcrypt
-        const saltRounds = 10;
-        const passwordHash = await bcrypt.hash(finalPassword, saltRounds);
-
-        // Write user account record into persistent database storage
-        await pool.execute(
-            'INSERT INTO USER_ACCOUNT (username, user_role, password_hash) VALUES (?, ?, ?)',
-            [username, role, passwordHash]
+        // Get latest residence logging to avoid transitivity updates
+        const [residenceRows] = await pool.execute(
+            `SELECT hall_name, room_no, semester_code 
+             FROM RESIDENCE_LOG 
+             WHERE customer_id = ? 
+             ORDER BY residence_log_id DESC LIMIT 1`,
+            [customerId]
         );
 
-        return res.status(201).json({
-            message: 'User identity established successfully.',
-            user: { username, role },
-            usingDefaultPassword: !password
+        // Calculate financial layout tracking calculations
+        const [orderRows] = await pool.execute(
+            `SELECT 
+                oh.order_id, 
+                oh.total_order_amount, 
+                oh.order_status, 
+                oh.created_at,
+                COALESCE(SUM(pl.amount_paid), 0) as total_paid
+             FROM ORDER_HEADER oh
+             LEFT JOIN PAYMENT_LEDGER pl ON oh.order_id = pl.order_id
+             WHERE oh.customer_id = ?
+             GROUP BY oh.order_id`,
+            [customerId]
+        );
+
+        // Process final mathematical breakdown array
+        let totalDebtOutstanding = 0;
+        const formattedOrders = orderRows.map(order => {
+            const totalOrder = parseFloat(order.total_order_amount);
+            const totalPaid = parseFloat(order.total_paid);
+            const remainingBalance = Math.max(0, totalOrder - totalPaid);
+            
+            if (order.order_status !== 'Completed') {
+                totalDebtOutstanding += remainingBalance;
+            }
+
+            return {
+                order_id: order.order_id,
+                total_amount: totalOrder,
+                amount_paid: totalPaid,
+                balance_due: remainingBalance,
+                status: order.order_status,
+                date: order.created_at
+            };
+        });
+
+        return res.json({
+            profile: profileRows[0],
+            residence: residenceRows[0] || { hall_name: 'Unassigned', room_no: 'N/A' },
+            financials: {
+                total_debt_outstanding: totalDebtOutstanding,
+                orders: formattedOrders
+            }
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: 'Failed to compile dashboard metrics.' });
     }
 };

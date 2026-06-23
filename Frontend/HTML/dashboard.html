@@ -3,288 +3,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Dashboard — VIRTS</title>
+  <title>Student Ledger — VIRTS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <link rel="stylesheet" href="../css/home.css" />
-  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/signin.css" />
+  <style>
+    :root { --bg-dark: #0f172a; --card-dark: #1e293b; --accent-blue: #38bdf8; }
+    body { background-color: var(--bg-dark); color: #f8fafc; font-family: 'DM Sans', sans-serif; margin: 0; }
+    .dash-container { max-width: 1200px; margin: 80px auto p; padding: 2rem; }
+    .profile-banner { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+    .dash-card { background: var(--card-dark); border: 1px solid #334155; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }
+    .metric-value { font-size: 2.25rem; font-weight: 700; color: var(--accent-blue); margin-top: 0.5rem; font-family: 'DM Mono', monospace; }
+    .ledger-table { width: 100%; border-collapse: collapse; margin-top: 1rem; text-align: left; }
+    .ledger-table th, .ledger-table td { padding: 1rem; border-bottom: 1px solid #334155; }
+    .ledger-table th { background: #111827; color: #94a3b8; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+    .status-badge { padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+    .status-pending { background: #7c2d12; color: #fdba74; }
+    .status-completed { background: #064e3b; color: #6ee7b7; }
+    .nav-actions { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 1rem; margin-bottom: 2rem; }
+    .btn-logout { background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500; transition: 0.2s; }
+    .btn-logout:hover { background: #dc2626; }
+  </style>
 </head>
-<body class="dash-page">
+<body>
 
-  <nav class="nav scrolled" id="navbar">
-    <a href="index.html" class="nav-logo">VIRTS</a>
-    <div class="nav-links">
-      <a href="index.html#features">Features</a>
-      <a href="index.html#how">How it works</a>
-      <a href="index.html#roles">Roles</a>
-    </div>
-    <div class="nav-user-area">
-      <span class="nav-user-info">
-        <i class="ti ti-user-circle" aria-hidden="true"></i>
-        <span id="nav-username">Chukwuemeka A.</span>
-        <span class="nav-role-badge" id="nav-role-badge">Student</span>
-      </span>
-      <a href="sign_in.html" class="nav-cta">
-        <i class="ti ti-logout" aria-hidden="true"></i> Logout
-      </a>
-    </div>
-  </nav>
-
-  <main class="dash-main">
-
-    <div class="dash-header">
-      <div class="dash-header-left">
-        <h1 class="dash-title">My Balance Dashboard</h1>
-        <p class="dash-sub" id="dash-sub">
-          24CG000001 · Peter Hall D302 · Semester: 2025/2026 Second
-        </p>
+  <div class="dash-container">
+    <div class="nav-actions">
+      <div>
+        <h1 style="font-size: 1.75rem; font-weight: 700;">VIRS Student Portal</h1>
+        <p style="color: #94a3b8;">Covenant University SBU Layaway Auditing System</p>
       </div>
-      <div class="deadline-pill">
-        <i class="ti ti-clock" aria-hidden="true"></i>
-        Semester closes in <strong>19 days</strong>
+      <button class="btn-logout" onclick="handleLogout()">Sign Out</button>
+    </div>
+
+    <div class="profile-banner">
+      <div class="dash-card">
+        <p style="color: #94a3b8; font-weight: 500; text-transform: uppercase; font-size: 0.8rem;"><i class="ti ti-wallet"></i> Total Installment Debt Owed</p>
+        <div class="metric-value" id="outstanding-balance">₦0.00</div>
+      </div>
+      <div class="dash-card">
+        <p style="color: #94a3b8; font-weight: 500; text-transform: uppercase; font-size: 0.8rem;"><i class="ti ti-user-id"></i> Student Metadata</p>
+        <p id="student-name" style="font-size: 1.15rem; font-weight: 600; margin-top: 0.5rem; color: white;">Loading...</p>
+        <p id="student-matric" style="color: #94a3b8; font-family: 'DM Mono', monospace; font-size: 0.9rem;"></p>
+      </div>
+      <div class="dash-card">
+        <p style="color: #94a3b8; font-weight: 500; text-transform: uppercase; font-size: 0.8rem;"><i class="ti ti-home-shield"></i> Residence Verification Location</p>
+        <p id="student-room" style="font-size: 1.15rem; font-weight: 600; margin-top: 0.5rem; color: white;">Loading...</p>
+        <p id="student-semester" style="color: #38bdf8; font-size: 0.85rem; font-weight: 500;"></p>
       </div>
     </div>
 
-    <div class="metrics-row">
-      <div class="metric-card stagger-1">
-        <div class="metric-icon"><i class="ti ti-shopping-bag" aria-hidden="true"></i></div>
-        <div>
-          <p class="metric-label">Active orders</p>
-          <p class="metric-value">2</p>
-        </div>
-      </div>
-
-      <div class="metric-card stagger-2">
-        <div class="metric-icon bad-icon"><i class="ti ti-receipt" aria-hidden="true"></i></div>
-        <div>
-          <p class="metric-label">Total owed</p>
-          <p class="metric-value bad">₦14,900</p>
-        </div>
-      </div>
-
-      <div class="metric-card stagger-3">
-        <div class="metric-icon ok-icon"><i class="ti ti-check" aria-hidden="true"></i></div>
-        <div>
-          <p class="metric-label">Total paid</p>
-          <p class="metric-value ok">₦30,500</p>
-        </div>
-      </div>
-
-      <div class="metric-card stagger-4">
-        <div class="metric-icon warn-icon"><i class="ti ti-calendar-event" aria-hidden="true"></i></div>
-        <div>
-          <p class="metric-label">Days to deadline</p>
-          <p class="metric-value warn">19</p>
-        </div>
+    <div class="dash-card">
+      <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;"><i class="ti ti-receipt"></i> Documented Installment Contracts</h2>
+      <div style="overflow-x: auto;">
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Order Total</th>
+              <th>Amount Paid</th>
+              <th>Remaining Balance</th>
+              <th>Status</th>
+              <th>Date Tracked</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody">
+            <tr>
+              <td colspan="6" style="text-align: center; color: #94a3b8; padding: 2rem;">Connecting to infrastructure nodes...</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
-    <h2 class="section-heading">Notifications</h2>
-
-    <div class="notif-list">
-
-      <div class="notif-card warn-notif stagger-1">
-        <div class="notif-dot warn-dot"><i class="ti ti-alert-triangle" aria-hidden="true"></i></div>
-        <div class="notif-body">
-          <p class="notif-text">Your installment for <strong>Corporate Suit (Navy Blue)</strong> is at 83% — semester closes <strong>Jun 22, 2026</strong>. Complete before deadline.</p>
-          <p class="notif-meta">Automated alert sent to @chukwuemeka_tg via Telegram</p>
-        </div>
-        <span class="notif-time">Today</span>
-      </div>
-
-      <div class="notif-card ok-notif stagger-2">
-        <div class="notif-dot ok-dot"><i class="ti ti-package" aria-hidden="true"></i></div>
-        <div class="notif-body">
-          <p class="notif-text"><strong>Casual Hoodie ×2</strong> is fully paid and <strong>ready for collection</strong>. Visit the boutique with your student ID.</p>
-          <p class="notif-meta">Peter Hall D302</p>
-        </div>
-        <span class="notif-time">May 1</span>
-      </div>
-
-      <div class="notif-card bad-notif stagger-3">
-        <div class="notif-dot bad-dot"><i class="ti ti-clock-exclamation" aria-hidden="true"></i></div>
-        <div class="notif-body">
-          <p class="notif-text"><strong>Sport Joggers</strong> plan is overdue since May 15. Item remains in allocated hold — not resold. Contact the admin to resolve.</p>
-          <p class="notif-meta">Order #ORD-2024-0058</p>
-        </div>
-        <span class="notif-time">May 15</span>
-      </div>
-
-    </div>
-
-    <h2 class="section-heading">My orders</h2>
-
-    <div class="order-card stagger-1">
-      <div class="order-top">
-        <div class="order-title-block">
-          <p class="order-name">Corporate Suit — Navy Blue</p>
-          <p class="order-id">#ORD-2024-0041 · Corporate wear</p>
-        </div>
-        <span class="status-badge active-badge">In progress</span>
-      </div>
-
-      <div class="progress-block">
-        <div class="progress-labels">
-          <span>Payment progress</span>
-          <span class="pct-label">83%</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-bar" style="--w: 83%; background: var(--ink);"></div>
-        </div>
-      </div>
-
-      <div class="order-amounts">
-        <div class="amount-col">
-          <p class="amount-label">Order total</p>
-          <p class="amount-val">₦30,000</p>
-        </div>
-        <div class="amount-col">
-          <p class="amount-label">Amount paid</p>
-          <p class="amount-val ok">₦25,000</p>
-        </div>
-        <div class="amount-col">
-          <p class="amount-label">Balance due</p>
-          <p class="amount-val bad">₦5,000</p>
-        </div>
-      </div>
-
-      <div class="order-meta-row">
-        <span class="meta-chip"><i class="ti ti-calendar" aria-hidden="true"></i> Started Mar 12, 2026</span>
-        <span class="meta-chip warn-chip">
-          <i class="ti ti-clock" aria-hidden="true"></i> Due Jun 22, 2026
-          <span class="days-chip">19 days</span>
-        </span>
-        <span class="meta-chip"><i class="ti ti-credit-card" aria-hidden="true"></i> Last: Moniepoint Apr 30</span>
-      </div>
-    </div>
-
-    <div class="order-card stagger-2">
-      <div class="order-top">
-        <div class="order-title-block">
-          <p class="order-name">Casual Hoodie ×2 — Black / White</p>
-          <p class="order-id">#ORD-2024-0029 · Casual wear</p>
-        </div>
-        <span class="status-badge done-badge">Completed</span>
-      </div>
-
-      <div class="progress-block">
-        <div class="progress-labels">
-          <span>Payment progress</span>
-          <span class="pct-label ok">100%</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-bar" style="--w: 100%; background: var(--ok);"></div>
-        </div>
-      </div>
-
-      <div class="order-amounts">
-        <div class="amount-col">
-          <p class="amount-label">Order total</p>
-          <p class="amount-val">₦20,000</p>
-        </div>
-        <div class="amount-col">
-          <p class="amount-label">Amount paid</p>
-          <p class="amount-val ok">₦20,000</p>
-        </div>
-        <div class="amount-col">
-          <p class="amount-label">Balance due</p>
-          <p class="amount-val">₦0</p>
-        </div>
-      </div>
-
-      <div class="order-meta-row">
-        <span class="meta-chip"><i class="ti ti-calendar" aria-hidden="true"></i> Started Feb 5, 2026</span>
-        <span class="meta-chip ok-chip"><i class="ti ti-check" aria-hidden="true"></i> Settled May 1, 2026</span>
-        <span class="meta-chip"><i class="ti ti-package" aria-hidden="true"></i> Ready for pickup</span>
-      </div>
-    </div>
-
-    <div class="order-card stagger-3">
-      <div class="order-top">
-        <div class="order-title-block">
-          <p class="order-name">Sport Joggers — Grey Melange</p>
-          <p class="order-id">#ORD-2024-0058 · Sport wear</p>
-        </div>
-        <span class="status-badge overdue-badge">Overdue</span>
-      </div>
-
-      <div class="progress-block">
-        <div class="progress-labels">
-          <span>Payment progress</span>
-          <span class="pct-label bad">45%</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-bar" style="--w: 45%; background: var(--bad);"></div>
-        </div>
-      </div>
-
-      <div class="order-amounts">
-        <div class="amount-col">
-          <p class="amount-label">Order total</p>
-          <p class="amount-val">₦18,000</p>
-        </div>
-        <div class="amount-col">
-          <p class="amount-label">Amount paid</p>
-          <p class="amount-val ok">₦8,100</p>
-        </div>
-        <div class="amount-col">
-          <p class="amount-label">Balance due</p>
-          <p class="amount-val bad">₦9,900</p>
-        </div>
-      </div>
-
-      <div class="order-meta-row">
-        <span class="meta-chip"><i class="ti ti-calendar" aria-hidden="true"></i> Started Jan 20, 2026</span>
-        <span class="meta-chip bad-chip"><i class="ti ti-clock" aria-hidden="true"></i> Was due May 15, 2026</span>
-        <span class="meta-chip"><i class="ti ti-phone" aria-hidden="true"></i> Contact Admin to resolve</span>
-      </div>
-    </div>
-
-    <h2 class="section-heading">
-      Payment history
-      <span class="section-heading-sub">— Order #ORD-2024-0041</span>
-    </h2>
-
-    <div class="table-wrapper">
-      <table class="pay-table">
-        <thead>
-          <tr>
-            <th>Moniepoint ref</th>
-            <th>Date</th>
-            <th>Method</th>
-            <th class="col-right">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="mono-cell">MNP-20260312-8821</td>
-            <td>Mar 12, 2026</td>
-            <td><span class="method-chip">Transfer</span></td>
-            <td class="col-right ok fw">₦10,000</td>
-          </tr>
-          <tr>
-            <td class="mono-cell">MNP-20260401-4430</td>
-            <td>Apr 1, 2026</td>
-            <td><span class="method-chip">Card</span></td>
-            <td class="col-right ok fw">₦8,000</td>
-          </tr>
-          <tr>
-            <td class="mono-cell">MNP-20260430-9917</td>
-            <td>Apr 30, 2026</td>
-            <td><span class="method-chip">Cash</span></td>
-            <td class="col-right ok fw">₦7,000</td>
-          </tr>
-          <tr class="table-total">
-            <td colspan="3"><strong>Total paid</strong></td>
-            <td class="col-right ok fw"><strong>₦25,000</strong></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </main>
+  </div>
 
   <script src="../js/dashboard.js"></script>
 </body>
