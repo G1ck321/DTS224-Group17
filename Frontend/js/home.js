@@ -1,4 +1,5 @@
 /* ── Navbar darkens on scroll ─────────────────────────── */
+fetch("")
 const navbar = document.getElementById('navbar');
 
 window.addEventListener('scroll', () => {
