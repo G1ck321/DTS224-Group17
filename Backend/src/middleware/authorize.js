@@ -1,4 +1,4 @@
-//middleware/authorize.js
+// middleware/authorize.js
 import jwt from 'jsonwebtoken';
 
 export default function authorize(...allowedRoles) {
@@ -14,10 +14,14 @@ export default function authorize(...allowedRoles) {
             
             // Verify token validity against our environmental secret
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = decoded; // Attach user payload (id, username, role) to the request object
+            req.user = decoded; // Attach user payload to the request object
+
+            // ── HARMONIZATION FIX ───────────────────────────────────────────
+            // Fall back to 'role' if 'user_role' doesn't exist in the payload
+            const currentRole = req.user.user_role || req.user.role;
 
             // Evaluate Role clearance matches requirements
-            if (allowedRoles.length && !allowedRoles.includes(req.user.user_role)) {
+            if (allowedRoles.length && !allowedRoles.includes(currentRole)) {
                 return res.status(403).json({ error: 'Forbidden: Insufficient Security Permissions' });
             }
 

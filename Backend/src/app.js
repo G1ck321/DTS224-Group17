@@ -20,6 +20,15 @@ app.use(cors({
 
 // Automatically map incoming JSON body streams to accessible JavaScript objects
 app.use(express.json());
+// ── NEW: GLOBAL TRAFFIC LOGGER ────────────────────────────────────────────────
+app.use((req, res, next) => {
+    console.log(`\n[🚦 INCOMING] ${req.method} ${req.url}`);
+    if (Object.keys(req.body).length > 0) {
+        console.log(`[📦 PAYLOAD]`, req.body);
+    }
+    next();
+});
+// ──────────────────────────────────────────────────────────────────────────────
 
 // ── API Routing Gateways ──────────────────────────────────────────────────────
 app.use('/api/v1/auth', authRoutes);

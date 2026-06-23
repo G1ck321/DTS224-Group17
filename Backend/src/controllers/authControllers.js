@@ -4,10 +4,13 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 /**
- * Unified Login Gateway supporting Staff Accounts and Student Matric Profiles
+ * 1. Unified Login Gateway supporting Staff Accounts and Student Matric Profiles
  */
 export const loginUser = async (req, res) => {
     const { username, password } = req.body;
+    
+    // X-RAY LOG: See exactly what the frontend sent
+    console.log(`\n[🔍 DEBUG] Login Attempt -> Username: '${username}', Password: '${password}'`);
 
     if (!username || !password) {
         return res.status(400).json({ error: 'Identification keys and credentials are required.' });
@@ -19,10 +22,15 @@ export const loginUser = async (req, res) => {
             'SELECT user_id, username, user_role, password_hash FROM USER_ACCOUNT WHERE username = ?',
             [username]
         );
+        
+        console.log(`[🔍 DEBUG] Staff record found in DB? ->`, staffRows.length > 0 ? 'YES' : 'NO');
 
         if (staffRows.length > 0) {
             const user = staffRows[0];
             const isMatch = await bcrypt.compare(password, user.password_hash);
+            
+            console.log(`[🔍 DEBUG] Bcrypt Password Match? ->`, isMatch ? 'YES' : 'NO');
+
             if (!isMatch) {
                 return res.status(401).json({ error: 'Invalid authentication credentials.' });
             }
@@ -46,15 +54,16 @@ export const loginUser = async (req, res) => {
             [username]
         );
 
+        console.log(`[🔍 DEBUG] Student record found in DB? ->`, customerRows.length > 0 ? 'YES' : 'NO');
+
         if (customerRows.length > 0) {
             const customer = customerRows[0];
             
-            // Validate against the academic staging default password
             if (password !== 'password') {
+                console.log(`[🔍 DEBUG] Student password rejected. Expected 'password', got '${password}'`);
                 return res.status(401).json({ error: 'Invalid password for student account demo.' });
             }
 
-            // Fetch name from parent structure
             const [personRows] = await pool.execute(
                 'SELECT fullname FROM PEOPLE WHERE people_id = ?',
                 [customer.customer_id]
@@ -74,6 +83,7 @@ export const loginUser = async (req, res) => {
             });
         }
 
+        console.log(`[🔍 DEBUG] FINAL VERDICT: Username does not exist in any table.`);
         return res.status(401).json({ error: 'Identity record not found within system boundaries.' });
     } catch (error) {
         console.error(error);
@@ -82,7 +92,82 @@ export const loginUser = async (req, res) => {
 };
 
 /**
- * Aggregates live data profiles, active layaways, and hostel metadata for the Student Dashboard
+ * 2. Identity Creation Gateway (Transactional Multi-Table Insert)
+ */
+export const registerUser = async (req, res) => {
+    const { username, role, password } = req.body;
+
+    // Boundary validations
+    if (!username || !role) {
+        return res.status(400).json({ error: 'Username and role are required fields.' });
+    }
+
+    const finalPassword = password || 'password';
+
+    // Grab a dedicated connection so we can lock the tables for a multi-step transaction
+    const connection = await pool.getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        // 1. Verify uniqueness to prevent duplicates
+        let existing = [];
+        if (role === 'Student') {
+            [existing] = await connection.execute('SELECT matric_no FROM CUSTOMER WHERE matric_no = ?', [username]);
+        } else {
+            [existing] = await connection.execute('SELECT username FROM USER_ACCOUNT WHERE username = ?', [username]);
+        }
+
+        if (existing.length > 0) {
+            await connection.rollback();
+            return res.status(400).json({ error: 'Identity already exists within the system boundary.' });
+        }
+
+        // 2. Insert into the PEOPLE supertype table FIRST
+        const peopleType = role === 'Student' ? 'C' : 'U';
+        // We inject placeholder data for the required fields since the signup form is minimal
+        const [personResult] = await connection.execute(
+            'INSERT INTO PEOPLE (fullname, phone_number, email, people_type) VALUES (?, ?, ?, ?)',
+            [`System ${role} Account`, '00000000000', `${username.toLowerCase()}_${Date.now()}@virts.local`, peopleType]
+        );
+        
+        const newPersonId = personResult.insertId; // Grab the newly created parent ID
+
+        // 3. Insert into the correct child table using the new parent ID
+        if (role === 'Student') {
+            await connection.execute(
+                'INSERT INTO CUSTOMER (customer_id, matric_no) VALUES (?, ?)',
+                [newPersonId, username]
+            );
+        } else {
+            const saltRounds = 10;
+            const passwordHash = await bcrypt.hash(finalPassword, saltRounds);
+            await connection.execute(
+                'INSERT INTO USER_ACCOUNT (user_id, username, password_hash, user_role) VALUES (?, ?, ?, ?)',
+                [newPersonId, username, passwordHash, role]
+            );
+        }
+
+        // 4. Commit the transaction to save everything permanently
+        await connection.commit();
+
+        return res.status(201).json({
+            message: 'User identity established successfully.',
+            user: { username, role },
+            usingDefaultPassword: !password
+        });
+    } catch (error) {
+        // If anything fails, undo all database changes to prevent corrupted half-records
+        await connection.rollback();
+        console.error('Signup Transaction Failed:', error);
+        return res.status(500).json({ error: 'Internal Server Error during identity creation.' });
+    } finally {
+        connection.release(); // Always release the connection back to the pool
+    }
+};
+
+/**
+ * 3. Aggregates live data profiles, active layaways, and hostel metadata for the Student Dashboard
  */
 export const getStudentDashboardData = async (req, res) => {
     // Extracted safely via authorization middleware token parsing
