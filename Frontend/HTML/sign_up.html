@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign up — VIRTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/home.css" />
+  <link rel="stylesheet" href="../css/signin.css" />
+</head>
+<body class="signin-page">
+
+  <nav class="nav scrolled" id="navbar">
+    <a href="index.html" class="nav-logo">VIRTS</a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#roles">Roles</a>
+    </div>
+  </nav>
+
+  <main class="signin-main">
+    <div class="signin-left">
+      <div class="signin-brand">
+        <span class="signin-logo">VIRTS</span>
+        <p class="signin-tagline">Vendor Installment &amp;<br/>Restock Tracking System</p>
+      </div>
+      <div class="signin-info">
+        <div class="sinfo-item">
+          <i class="ti ti-user-plus" aria-hidden="true"></i>
+          <div>
+            <p class="sinfo-title">Create your identity profile</p>
+            <p class="sinfo-sub">Register under your appropriate group clearance level.</p>
+          </div>
+        </div>
+        <div class="sinfo-item">
+          <i class="ti ti-key" aria-hidden="true"></i>
+          <div>
+            <p class="sinfo-title">Default password protection</p>
+            <p class="sinfo-sub">Leave password blank to quickly assign "password" for staging tests.</p>
+          </div>
+        </div>
+      </div>
+      <p class="signin-footer-note">God's Wish Boutique · Covenant University SBU · DTS224 Group 17</p>
+    </div>
+
+    <div class="signin-right">
+      <div class="signin-card">
+
+        <div class="signin-card-header">
+          <h1 class="signin-title">Get Started</h1>
+          <p class="signin-sub">Create your VIRTS system account</p>
+        </div>
+
+        <div class="role-tabs" role="tablist">
+          <button class="rtab active" id="tab-student" role="tab" aria-selected="true" onclick="setSignupRole('student')">
+            <i class="ti ti-user" aria-hidden="true"></i> STUDENT
+          </button>
+          <button class="rtab" id="tab-seller" role="tab" aria-selected="false" onclick="setSignupRole('seller')">
+            <i class="ti ti-tag" aria-hidden="true"></i> SELLER
+          </button>
+          <button class="rtab" id="tab-boss" role="tab" aria-selected="false" onclick="setSignupRole('boss')">
+            <i class="ti ti-crown" aria-hidden="true"></i> ADMIN
+          </button>
+        </div>
+
+        <form class="signin-form" onsubmit="handleSignUp(event)">
+          <div class="form-group">
+            <label id="id-label" for="signup-id">Student ID / Matric number</label>
+            <div class="input-wrap">
+              <i class="ti ti-id-badge input-icon" aria-hidden="true"></i>
+              <input type="text" id="signup-id" placeholder="e.g. 24CG000001" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="signup-pw">Password (Optional — defaults to 'password')</label>
+            <div class="input-wrap">
+              <i class="ti ti-lock input-icon" aria-hidden="true"></i>
+              <input type="password" id="signup-pw" placeholder="Leave blank for 'password'" />
+              <button type="button" class="pw-toggle" onclick="toggleRegisterPw()" aria-label="Toggle password visibility">
+                <i class="ti ti-eye" id="pw-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+          <p class="form-error" id="form-error" style="color: #22c55e; font-size: 0.875rem;" aria-live="polite"></p>
+
+          <button type="submit" class="btn-signin" id="signup-btn">
+            <span id="btn-text">Create Account</span>
+            <i class="ti ti-user-plus" id="btn-icon" aria-hidden="true"></i>
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <p class="signin-sub" style="font-size: 0.9rem;">Already have an account? <a href="sign_in.html" style="color: var(--accent, #6366f1); text-decoration: none; font-weight: 500;">Sign In</a></p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/signup.js"></script>
+</body>
+</html>

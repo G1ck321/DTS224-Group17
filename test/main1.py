@@ -9,7 +9,7 @@ if sys.platform.startswith('win'):
     except Exception:
         pass
 
-BASE_URL = "http://localhost:5000/api/v1"
+BASE_URL = "https://dts224-group17.onrender.com/api/v1"
 
 def run_integration_test():
     print("====================================================")
