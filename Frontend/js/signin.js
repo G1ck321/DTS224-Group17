@@ -45,7 +45,11 @@ function handleSignIn(e) {
   icon.className = 'ti ti-loader spinning';
   btn.disabled = true;
 
-  fetch('http://localhost:5000/api/v1/auth/login', {
+  const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000/api/v1'
+    : '/api/v1';
+
+  fetch(`${API_BASE}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: id, password: pw })

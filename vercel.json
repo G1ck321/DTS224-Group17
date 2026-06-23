@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "comment": "VIRTS Vercel Deployment Config — DTS224 Group 17",
+
+  "builds": [
+    {
+      "src": "Backend/src/server.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["Backend/src/**"]
+      }
+    },
+    {
+      "src": "Frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+
+  "routes": [
+    {
+      "comment": "All /api/* requests go to the Express backend",
+      "src": "/api/(.*)",
+      "dest": "Backend/src/server.js"
+    },
+    {
+      "comment": "All other requests are served as static Frontend files",
+      "src": "/(.*)",
+      "dest": "Frontend/$1"
+    }
+  ],
+
+  "env": {
+    "comment": "These are placeholder keys — set the REAL values in the Vercel Dashboard under Settings > Environment Variables",
+    "NODE_ENV": "production"
+  }
+}

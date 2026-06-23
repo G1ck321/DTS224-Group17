@@ -1,6 +1,14 @@
 import sys
 import requests
 
+# Reconfigure stdout/stderr to support UTF-8 emojis on Windows
+if sys.platform.startswith('win'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+        sys.stderr.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 BASE_URL = "http://localhost:5000/api/v1"
 
 def run_integration_test():
@@ -36,11 +44,12 @@ def run_integration_test():
 
     # ──── STEP 2: PROTECTED ROUTE TESTING ────
     print("[TEST 2/2] Testing Protected Payment Ledger Insertion...")
+    import time
     payment_payload = {
         "order_id": 101,
         "amount_paid": 2000,
         "payment_method": "POS",
-        "moniepoint_ref": "MNP-PYTHON-TEST-99"
+        "moniepoint_ref": f"MNP-PYTHON-TEST-{int(time.time())}"
     }
     
     headers = {
